@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/profile_id"
+            android:icon="@drawable/profile_icon"
+            android:title="Profile" />
+
+        <item android:id="@+id/chat_id"
+            android:icon="@drawable/chat_icon"
+            android:title="Chat"/>
+
+        <item android:id="@+id/contact_id"
+              android:icon="@drawable/contacts_icon"
+              android:title="Contacts"/>
+
+        <item android:id="@+id/camera_id"
+              android:icon="@drawable/camera_icon"
+              android:title="Camera"/>
+
+        <item android:id="@+id/logout_id"
+              android:icon="@drawable/baseline_power_settings_new_black_36dp"
+              android:title="Logout"/>
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item android:id="@+id/share_id"
+                  android:icon="@drawable/share_icon"
+                  android:title="Share"/>
+
+
+        </menu>
+
+
+    </item>
+</menu>
