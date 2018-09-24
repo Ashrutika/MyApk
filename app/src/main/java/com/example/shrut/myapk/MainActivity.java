@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public  class MainActivity extends AppCompatActivity  {
-
+    DatabaseHelper Mydb;
+    private Session session;
     private Button btnlog;
     private EditText contact;
     private EditText password;
@@ -19,8 +21,18 @@ public  class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Mydb=new DatabaseHelper(MainActivity.this);
+        session=new Session(MainActivity.this);
+
+
         OnClick();
         OnClickHere();
+
+        if(session.loggedin()){
+            startActivity(new Intent(MainActivity.this,Main3Activity.class));
+            finish();
+        }
     }
 
    public void OnClick(){
@@ -30,17 +42,29 @@ public  class MainActivity extends AppCompatActivity  {
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(contact.getText().toString().equals("8177963943") && password.getText().toString().equals("1234")) {
 
-                    Intent intent = new Intent(MainActivity.this, Main3Activity.class);
+                String contactStr=contact.getText().toString();
+                String passStr=password.getText().toString();
+                String Password=Mydb.searchLog(contactStr);
+
+                if(passStr.equals(Password)){
+                    Toast.makeText(MainActivity.this,"Login Successfull",Toast.LENGTH_SHORT).show();
+                    session.setLoggedin(true);
+                    Intent intent=new Intent(MainActivity.this,Main3Activity.class);
                     startActivity(intent);
+                    finish();
+
                 }
-                else{
+                else
+                {
                     count--;
-                    if(count==0){
-                        btnlog.setEnabled(false);
+                    Toast.makeText(MainActivity.this, "Incorrect Information", Toast.LENGTH_SHORT).show();
+                    if(count==0)
+                    {
+                       btnlog.setEnabled(false);
                     }
                 }
+
             }
         });
    }
@@ -55,4 +79,5 @@ public  class MainActivity extends AppCompatActivity  {
             }
         });
     }
+
 }

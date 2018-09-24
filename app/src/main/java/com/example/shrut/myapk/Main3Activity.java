@@ -1,13 +1,13 @@
 package com.example.shrut.myapk;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +16,8 @@ import android.widget.Toast;
 
 public class Main3Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-
+    DatabaseHelper Mydb;
+    private Session session;
 
 
     @Override
@@ -24,6 +25,12 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
+        Mydb=new DatabaseHelper(Main3Activity.this);
+        session=new Session(Main3Activity.this);
+
+        if(!session.loggedin()){
+            logout();
+        }
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -76,11 +83,13 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
                 break;
 
             case R.id.logout_id:
-                Intent intent=new Intent(Main3Activity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+                    logout();
+                    break;
 
+
+           // case R.id.delete_id:
+             //   delete();
+               // break;
 
             case R.id.share_id:
                 Toast.makeText(this,"share",Toast.LENGTH_SHORT).show();
@@ -106,4 +115,16 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
 
         }
     }
-}
+
+    public void logout(){
+        session.setLoggedin(false);
+        Intent intent = new Intent(Main3Activity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+
+    }
+
+
