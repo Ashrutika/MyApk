@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <TextView
+        android:id="@+id/txt1_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="hello,this is received msg"
+        android:textSize="20dp"
+        android:textColor="@color/colorBlack"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:maxWidth="200dp"
+        android:textAlignment="center"
+        android:background="@drawable/received_bubble"/>
+
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.shrut.myapk;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,12 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class Main3Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    DatabaseHelper Mydb;
+   // DatabaseHelper Mydb;
     private Session session;
+    Button btn;
 
 
     @Override
@@ -25,7 +28,9 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-        Mydb=new DatabaseHelper(Main3Activity.this);
+
+       // Mydb=new DatabaseHelper(Main3Activity.this);
+
         session=new Session(Main3Activity.this);
 
         if(!session.loggedin()){
@@ -45,10 +50,11 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
 
         if(savedInstanceState==null) {
-
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new Chatclass()).commit();
+                   new Chatclass()).commit();
             navigationView.setCheckedItem(R.id.chat_id);
+
+
         }
     }
 
@@ -65,11 +71,12 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
             case R.id.profile_id:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new Profileclass()).commit();
+
                 break;
 
             case R.id.chat_id:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new Chatclass()).commit();
+                       new Chatclass()).commit();
                 break;
 
             case R.id.contact_id:
@@ -78,21 +85,28 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
                 break;
 
             case R.id.camera_id:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new Cameraclass()).commit();
+                Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,0);
+               // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                 //       new Cameraclass()).commit();
                 break;
 
             case R.id.logout_id:
-                    logout();
-                    break;
+                  logout();
+                  break;
 
 
-           // case R.id.delete_id:
+            //case R.id.delete_id:
              //   delete();
-               // break;
+           // Intent intent=new Intent(Main3Activity.this,MainchatActivity.class);
+            //startActivity(intent);
+              // break;
 
             case R.id.share_id:
-                Toast.makeText(this,"share",Toast.LENGTH_SHORT).show();
+                Intent intent1=new Intent(Main3Activity.this,MainchatActivity.class);
+                startActivity(intent1);
+                Toast.makeText(this,"chat",Toast.LENGTH_SHORT).show();
+
                 break;
 
 
@@ -123,6 +137,19 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         finish();
 
     }
+
+   /* public void onPress(){
+        btn=(Button)findViewById(R.id.btn_back);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container,new Chatclass());
+                //Intent it=new Intent(Main3Activity.this,Chatclass.class);
+                //startActivity(it);
+            }
+        });
+    }*/
 
 
     }

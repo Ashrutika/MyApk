@@ -1,30 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple">
+    android:background="#DCDCDC">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/set_profile_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+
+        android:layout_above="@+id/name_card"
+        android:layout_alignStart="@+id/btnChange_prof"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/default_profile" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="300dp"
-        android:background="@color/colorBlack"
-        android:orientation="vertical"
-        android:padding="70dp">
+    <android.support.v7.widget.CardView
+        android:id="@+id/name_card"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/email_card"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp"
+        android:textAlignment="center"
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher_round"
-            android:layout_gravity="left"
-            />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/dis_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignEnd="@+id/cardView"
+            android:layout_alignTop="@+id/cardView"
+            android:fontFamily="serif"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:text="Display Name"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/email_card"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btnChange_prof"
+        android:layout_alignStart="@+id/name_card"
+        android:layout_marginBottom="16dp"
+        android:textAlignment="center"
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp">
+
+
+        <TextView
+            android:id="@+id/dis_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/email_card"
+            android:fontFamily="serif"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:text="Email@gmail.com"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/btnChange_prof"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="74dp"
+        android:background="@drawable/oval"
+        android:elevation="20dp"
+        android:fontFamily="serif"
+        android:text="change profile"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:textSize="20dp" />
+
+
+
+
 </RelativeLayout>

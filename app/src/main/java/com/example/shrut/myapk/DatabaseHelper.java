@@ -48,9 +48,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(col_4, Pass);
         long result = Db.insert(TABLE_NAME, null, contentValues);
         //Db.close();
-        if (result == -1) {
+        if (result == -1)
+        {
             return false;
-        } else {
+        }
+        else
+        {
             return true;
         }
 

@@ -26,13 +26,13 @@
             android:layout_height="20dp" />
 
         <EditText
-            android:id="@+id/etPhone"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/edit_icon"
+            android:drawableLeft="@drawable/baseline_email_white_36dp"
             android:ems="10"
-            android:hint="Contact"
-            android:inputType="phone"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite" />
 
