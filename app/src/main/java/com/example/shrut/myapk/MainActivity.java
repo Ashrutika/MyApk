@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
-   // DatabaseHelper Mydb;
+
     private Session session;
     private Button btnlog;
     private EditText email;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.etEmail);
         password = (EditText) findViewById(R.id.etPass);
 
-        //Mydb = new DatabaseHelper(MainActivity.this);
+
         session = new Session(MainActivity.this);
 
 
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        OnClick();
+
         OnClickHere();
-//
+
         if (session.loggedin())
         {
             startActivity(new Intent(MainActivity.this, Main3Activity.class));
@@ -100,37 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-//   public void OnClick(){
-//
-//        btnlog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                String contactStr=contact.getText().toString();
-//                String passStr=password.getText().toString();
-//                String Password=Mydb.searchLog(contactStr);
-//
-//                if(passStr.equals(Password)){
-//                    Toast.makeText(MainActivity.this,"Login Successfull",Toast.LENGTH_SHORT).show();
-//                    session.setLoggedin(true);
-//                    Intent intent=new Intent(MainActivity.this,Main3Activity.class);
-//                    startActivity(intent);
-//                    finish();
-//
-//                }
-//                else
-//                {
-//                    count--;
-//                    Toast.makeText(MainActivity.this, "Incorrect Information", Toast.LENGTH_SHORT).show();
-//                    if(count==0)
-//                    {
-//                       btnlog.setEnabled(false);
-//                    }
-//                }
-//
-//            }
-//        });
-//   }
+
 
     public void OnClickHere() {
         btnclk = (Button) findViewById(R.id.btnClick);
