@@ -1,32 +1,31 @@
-//package com.example.shrut.myapk;
-//
-//import android.widget.ImageView;
-//import android.widget.TextView;
-//
-///**
-// * Created by root1 on 2/10/18.
-// */
-//
-//public class ProfileList {
-//    public ProfileList(ImageView imageUrl, TextView name) {
-//        this.imageUrl = imageUrl;
-//        this.name = name;
-//       // this.status = status;
+package com.example.shrut.myapk;
+
+/**
+ * Created by root1 on 2/10/18.
+ */
+
+public class ProfileList {
+    private String imageUrl;
+    private String name;
+
+    public ProfileList(String imageUrl, String name) {
+        this.imageUrl = imageUrl;
+        this.name = name;
+       // this.status = status;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+//    public String getStatus() {
+//        return status;
 //    }
-//
-//    public ImageView getImageUrl() {
-//        return imageUrl;
-//    }
-//
-//    public TextView getName() {
-//        return name;
-//    }
-//
-////    public String getStatus() {
-////        return status;
-////    }
-//
-//    private ImageView imageUrl;
-//    private TextView name;
-//   // private String status;
-//}
+
+
+   // private String status;
+}

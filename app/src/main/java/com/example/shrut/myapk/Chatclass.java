@@ -6,6 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by root1 on 17/9/18.
@@ -13,11 +20,11 @@ import android.view.ViewGroup;
 
 public class Chatclass extends Fragment {
 
-//    private ListView chat_list;
-//    private TextView name;
-//    private ImageView image;
-//    private List<ProfileList> ProfileLists;
-//    private ArrayAdapter<ProfileList> adapter;
+    private ListView chat_list;
+    private TextView name;
+    private ImageView image;
+    private List<ProfileList> profileLists;
+    private ArrayAdapter<ProfileList> adapter;
 
     @Nullable
     @Override
@@ -25,18 +32,20 @@ public class Chatclass extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_chat,container,false);
 
-//        ProfileLists = new ArrayList<>();
-//
-//        chat_list = (ListView)view.findViewById(R.id.fragment_chat_id);
-//        name=(TextView)view.findViewById(R.id.name_person_id);
-//        image=(ImageView)view.findViewById(R.id.img_circle_id);
-//        adapter = new ProfileAdapter(getActivity(), R.layout.person_chat, ProfileLists);
-//
-//        chat_list.setAdapter(adapter);
-//
-//        ProfileList ProfileList = new ProfileList(image,name);
-//       ProfileLists.add(ProfileList);
-//        adapter.notifyDataSetChanged();
+        profileLists = new ArrayList<>();
+
+        chat_list = (ListView)view.findViewById(R.id.listview_chat);
+        name=(TextView)view.findViewById(R.id.name_person_id);
+        image=(ImageView)view.findViewById(R.id.img_circle_id);
+
+        ProfileList p=new ProfileList("https://www.shareicon.net/data/128x128/2016/07/11/316099_man_512x512.png","shrutika");
+        profileLists.add(p);
+
+        adapter = new ProfileAdapter(getActivity(), R.layout.person_chat, profileLists);
+
+        chat_list.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
 
 //        String[] items={"hii",
 //                         "hello",

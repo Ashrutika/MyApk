@@ -14,9 +14,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class Main2Activity extends AppCompatActivity {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference();
 
     public EditText ed_contact;
     private EditText ed_name;
@@ -45,14 +51,16 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View view) {
                 String email=ed_email.getText().toString();
                 String password=ed_pass.getText().toString();
-                register(email,password);
+                String userName=ed_name.getText().toString();
+                String contact=ed_contact.getText().toString();
+                register(email,password,userName,contact);
             }
         });
 
 
     }
 
-    public void register(String email,String password){
+    public void register(final String email, String password, final String userName, final String contact){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -62,7 +70,12 @@ public class Main2Activity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Main2Activity.this, "Authentication successful.",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(Main2Activity.this,MainActivity.class);
+                            HashMap<String,String> users=new HashMap<>();
+                            users.put("username",userName);
+                            users.put("email",email);
+                            users.put("contact",contact);
+                            myRef.child("users").child(mAuth.getCurrentUser().getUid()).setValue(users);
+                            Intent intent=new Intent(Main2Activity.this,Main3Activity.class);
                             startActivity(intent);
                             finish();
 
