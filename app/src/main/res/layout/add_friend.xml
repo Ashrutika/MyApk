@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleimgadd_id"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:src="@drawable/default_profile" />
+    <Space
+        android:layout_width="5dp"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/person_nameadd_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Person1"
+        android:fontFamily="serif"
+        android:textColor="@color/colorBlack"
+        android:textSize="20dp" />
+
+    <Space
+        android:layout_width="120dp"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/addfriend_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/add_accept_button"
+        android:text="Add"/>
+
+</LinearLayout>

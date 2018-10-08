@@ -12,16 +12,16 @@
             android:icon="@drawable/chat_icon"
             android:title="Chat"/>
 
-        <item android:id="@+id/contact_id"
-              android:icon="@drawable/contacts_icon"
-              android:title="Contacts"/>
+        <item android:id="@+id/friends_id"
+              android:icon="@drawable/friends_icon"
+              android:title="Friends"/>
 
         <item android:id="@+id/camera_id"
               android:icon="@drawable/camera_icon"
               android:title="Camera"/>
 
         <item android:id="@+id/logout_id"
-              android:icon="@drawable/baseline_power_settings_new_black_36dp"
+              android:icon="@drawable/logout_icon"
               android:title="Logout"/>
 
         <item android:id="@+id/delete_id"

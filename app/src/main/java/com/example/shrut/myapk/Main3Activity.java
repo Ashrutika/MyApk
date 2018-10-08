@@ -79,9 +79,9 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
                        new Chatclass()).commit();
                 break;
 
-            case R.id.contact_id:
+            case R.id.friends_id:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new Contactsclass()).commit();
+                        new Friendsclass()).commit();
                 break;
 
             case R.id.camera_id:
