@@ -1,12 +1,15 @@
 package com.example.shrut.myapk;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button btnclk;
+    private TextView forgotpassword;
+    private ProgressDialog progressDialog;
     private int count = 3;
     private FirebaseAuth mAuth;
 
@@ -32,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+
+        progressDialog=new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Loading...");
 
         btnlog = (Button) findViewById(R.id.btnLogin);
         email = (EditText) findViewById(R.id.etEmail);
@@ -45,15 +53,19 @@ public class MainActivity extends AppCompatActivity {
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 final String typedEmail = email.getText().toString();
                 final String typedPassword = password.getText().toString();
-
-                regiter(typedEmail,typedPassword);
+                register(typedEmail,typedPassword);
+                progressDialog.show();
+                new BackGroundJob().execute();
             }
         });
 
 
         OnClickHere();
+        OnclickChangepass();
 
         if (session.loggedin())
         {
@@ -65,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void regiter(String email,String password){
+    public void register(String email,String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -78,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             session.setLoggedin(true);
                             Intent intent=new Intent(MainActivity.this,Main3Activity.class);
-                            startActivity(intent);
+                           startActivity(intent);
                             finish();
 
                         }
@@ -113,4 +125,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    public void OnclickChangepass(){
+        forgotpassword=(TextView)findViewById(R.id.forgotpass_id);
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private class BackGroundJob extends AsyncTask<Void,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try{
+                Thread.sleep(1000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.cancel();
+        }
+    }
 }

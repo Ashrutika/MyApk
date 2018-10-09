@@ -1,6 +1,8 @@
 package com.example.shrut.myapk;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class Main2Activity extends AppCompatActivity {
     private EditText ed_pass;
     private EditText ed_email;
     private Button btnsign;
+    private ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth;
     @Override
@@ -37,7 +40,8 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         mAuth = FirebaseAuth.getInstance();
 
-
+        progressDialog=new ProgressDialog(Main2Activity.this);
+        progressDialog.setMessage("Loading...");
 
         ed_contact=(EditText)findViewById(R.id.etPhone);
         ed_name=(EditText)findViewById(R.id.etName);
@@ -54,6 +58,8 @@ public class Main2Activity extends AppCompatActivity {
                 String userName=ed_name.getText().toString();
                 String contact=ed_contact.getText().toString();
                 register(email,password,userName,contact);
+                progressDialog.show();
+                new Main2Activity.BackGroundJob().execute();
             }
         });
 
@@ -68,7 +74,7 @@ public class Main2Activity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(Main2Activity.this, "Authentication successful.",
+                            Toast.makeText(Main2Activity.this, "Signup Successful",
                                     Toast.LENGTH_SHORT).show();
                             HashMap<String,String> users=new HashMap<>();
                             users.put("username",userName);
@@ -91,6 +97,22 @@ public class Main2Activity extends AppCompatActivity {
                 });
     }
 
+    private class BackGroundJob extends AsyncTask<Void,Void,Void> {
 
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try{
+                Thread.sleep(1000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.cancel();
+        }
+    }
 
 }
