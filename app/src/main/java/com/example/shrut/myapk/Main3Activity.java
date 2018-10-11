@@ -13,14 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class Main3Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-   // DatabaseHelper Mydb;
+
     private Session session;
-    Button btn;
+   // Button btnTakeimg;
 
 
     @Override
@@ -29,7 +28,7 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_main3);
 
 
-       // Mydb=new DatabaseHelper(Main3Activity.this);
+
 
         session=new Session(Main3Activity.this);
 
@@ -69,6 +68,7 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.profile_id:
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new Profileclass()).commit();
 
@@ -85,6 +85,7 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
                 break;
 
             case R.id.camera_id:
+
                 Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent,0);
                // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -96,16 +97,12 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
                   break;
 
 
-            //case R.id.delete_id:
+            case R.id.delete_id:
              //   delete();
-           // Intent intent=new Intent(Main3Activity.this,MainchatActivity.class);
-            //startActivity(intent);
-              // break;
+               break;
 
             case R.id.share_id:
-                Intent intent1=new Intent(Main3Activity.this,MainchatActivity.class);
-                startActivity(intent1);
-                Toast.makeText(this,"chat",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"share",Toast.LENGTH_SHORT).show();
 
                 break;
 
@@ -137,6 +134,7 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         finish();
 
     }
+
 
    /* public void onPress(){
         btn=(Button)findViewById(R.id.btn_back);

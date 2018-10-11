@@ -84,7 +84,7 @@
         android:background="@drawable/oval"
         android:elevation="20dp"
         android:fontFamily="serif"
-        android:text="change profile"
+        android:text="Choose Profile"
         android:textAlignment="center"
         android:textColor="#FF0000"
         android:textSize="20dp" />

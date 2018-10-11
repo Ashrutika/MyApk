@@ -42,7 +42,7 @@ public class Friendsclass extends Fragment {
 
         for(int i=0;i<20;i++) {
 
-            FriendList f = new FriendList("https://www.shareicon.net/data/128x128/2016/07/11/316099_man_512x512.png", "shrutiankam");
+            FriendList f = new FriendList("https://www.shareicon.net/data/128x128/2016/07/11/316099_man_512x512.png", "shruti");
             friendLists.add(f);
 
             adapter = new FriendAdapter(getActivity(), R.layout.friend_request, friendLists);

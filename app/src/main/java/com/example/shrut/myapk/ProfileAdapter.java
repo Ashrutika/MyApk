@@ -1,12 +1,14 @@
 package com.example.shrut.myapk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -32,27 +34,38 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ProfileAdapter.ViewHolder holder;
+        ViewHolder holder;
         LayoutInflater inflater=(LayoutInflater)activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         int layoutResource=0;
-        ProfileList profileList=getItem(position);
+        final ProfileList profileList=getItem(position);
 
         layoutResource=this.resource;
 
         if(convertView!=null)
         {
-            holder=(ProfileAdapter.ViewHolder)convertView.getTag();
+            holder=(ViewHolder)convertView.getTag();
         }
         else
         {
             //if(ProfileList.getSenderOrReceiver()==true){
-                convertView=inflater.inflate(R.layout.person_chat,parent,false);
-                holder=new ProfileAdapter.ViewHolder(convertView);
-                convertView.setTag(holder);
-                holder.name.setText((CharSequence) profileList.getName());
-                new ImageFromURL(holder.image).execute(profileList.getImageUrl());
-           // }
+            convertView=inflater.inflate(R.layout.person_chat,parent,false);
+            holder=new ViewHolder(convertView);
+            convertView.setTag(holder);
+            holder.name.setText((CharSequence) profileList.getUserName());
+            new ImageFromURL(holder.image).execute(profileList.getEmail());
+            holder.email.setText((CharSequence)profileList.getEmail());
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent startChat=new Intent(getContext(),MainchatActivity.class);
+                    startChat.putExtra("userId",profileList.getUserId());
+                    getContext().startActivity(startChat);
+                    Toast.makeText(getContext(),profileList.getUserId(),Toast.LENGTH_LONG).show();
+                }
+            });
+            // }
 //            if(ChatBubble.getSenderOrReceiver()==false){
 //                convertView=inflater.inflate(R.layout.receiver,parent,false);
 //                holder=new MessageAdapter.ViewHolder(convertView);
@@ -82,11 +95,15 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
     {
         private TextView name;
         private ImageView image;
+        private TextView email;
 
         public ViewHolder(View v){
 
             name= (TextView)v.findViewById(R.id.name_person_id);  //name_person_id is the id of textview in person_chat
             image=(ImageView)v.findViewById(R.id.img_circle_id);
+            email=(TextView)v.findViewById(R.id.email_person_id);
         }
     }
+
+
 }

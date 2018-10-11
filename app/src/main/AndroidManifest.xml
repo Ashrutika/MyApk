@@ -3,7 +3,6 @@
     package="com.example.shrut.myapk">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,13 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Main2Activity" />
         <activity
             android:name=".Main3Activity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".MainchatActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MainchatActivity" />
         <activity android:name=".startView" />
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity" />
     </application>
 
 </manifest>

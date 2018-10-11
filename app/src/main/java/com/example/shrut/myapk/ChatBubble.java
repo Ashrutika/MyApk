@@ -7,19 +7,28 @@ package com.example.shrut.myapk;
 public class ChatBubble {
 
     private  String content;
+    private boolean isSent;
 
-   // private boolean isSent;
-
-    public ChatBubble(String content){
-
-        this.content=content;
-       // this.isSent=isSent;
+    public void setSent(boolean sent) {
+        isSent = sent;
     }
 
-    public String getContent(){
+    public void setContent(String content) {
+
+        this.content = content;
+    }
+
+    public String getContent() {
         return content;
     }
-   // public boolean getSenderOrReceiver(){
-      //  return isSent;
-    //}
+
+    public boolean isSent() {
+        return isSent;
+    }
+
+    public ChatBubble(String content, boolean isSent) {
+        this.content = content;
+        this.isSent = isSent;
+    }
+
 }
