@@ -89,10 +89,10 @@ public class Chatclass extends Fragment {
         //iterate through each user, ignoring their UID
         for (Map.Entry<String, Object> entry : users.entrySet()) {
 
-            if(entry.getKey()!=mAuth.getCurrentUser().getUid()) {
+            if(!entry.getKey().equals(mAuth.getCurrentUser().getUid())) {
                 //Get user map
                 Map singleUser = (Map) entry.getValue();
-                System.out.println("-----------------------" + singleUser);
+                System.out.println("-----------------------" + entry.getKey());
                 if (singleUser.get("email") != null && singleUser.get("username") != null) {
                     profileLists.add(new ProfileList(entry.getKey(), singleUser.get("email").toString(), singleUser.get("username").toString(), singleUser.get("contact").toString()));
                 }

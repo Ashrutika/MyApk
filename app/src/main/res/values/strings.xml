@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyApk</string>
+    <string name="app_name">vConnect</string>
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
     <string name="title_activity_chat">ChatActivity</string>

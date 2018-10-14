@@ -32,7 +32,6 @@ public class Main2Activity extends AppCompatActivity {
     private EditText ed_email;
     private Button btnsign;
     private ProgressDialog progressDialog;
-
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,6 @@ public class Main2Activity extends AppCompatActivity {
         ed_email=(EditText)findViewById(R.id.etEmail);
         ed_pass=(EditText)findViewById(R.id.etPass);
         btnsign=(Button)findViewById(R.id.btnSign);
-
 
         btnsign.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -23,6 +23,11 @@ public class ImageFromURL extends AsyncTask<String,Void,Bitmap> {
         this.imageView = imageView;
     }
 
+    public ImageFromURL() {
+
+    }
+
+
     @Override
     protected Bitmap doInBackground(String... strings) {
         try {

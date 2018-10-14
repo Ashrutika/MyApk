@@ -61,6 +61,7 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
                 public void onClick(View v) {
                     Intent startChat=new Intent(getContext(),MainchatActivity.class);
                     startChat.putExtra("userId",profileList.getUserId());
+                    startChat.putExtra("userName",profileList.getUserName());
                     getContext().startActivity(startChat);
                     Toast.makeText(getContext(),profileList.getUserId(),Toast.LENGTH_LONG).show();
                 }

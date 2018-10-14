@@ -1,20 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shrut.myapk.MainchatActivity">
+    tools:context=".MainchatActivity"
+    android:orientation="vertical"
+    >
 
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="100"-->
+        <!--android:background="#ffddaa"-->
+        <!--android:layout_weight="0"-->
+        <!--&gt;-->
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_weight="10"-->
+            <!--/>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_weight="90"-->
+            <!--&gt;-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="User"-->
+                <!--android:textSize="40sp"-->
+                <!--android:id="@+id/userName"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_weight="100"
+        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
         android:orientation="horizontal"
+        android:layout_weight="0"
         android:id="@+id/linearLayout3">
 
 
@@ -23,7 +60,6 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:hint="Type message"
-            android:textAlignment="textStart"
             android:textSize="25dp" />
 
         <Button
@@ -34,12 +70,5 @@
             android:text="send" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout3"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="10dp" />
-</RelativeLayout>
+
+</LinearLayout>

@@ -6,12 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,25 +26,31 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainchatActivity extends AppCompatActivity {
 
-    private ListView list_view;
+    private RecyclerView list_view;
     private View btn_send;
     private EditText editMsg;
     private boolean isSent = true;
     String[] timeList;
-    private List<ChatBubble> ChatBubbles;
+    private ArrayList<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     String profileID;
+    String profileName;
+    TextView userName;
     FirebaseAuth mAuth;
     int messageIndex = 0;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        profileName = getIntent().getStringExtra("userName");
+        setTitle(profileName);
+
         setContentView(R.layout.activity_mainchat);
 
         mAuth = FirebaseAuth.getInstance();
@@ -53,19 +61,29 @@ public class MainchatActivity extends AppCompatActivity {
 
         ChatBubbles = new ArrayList<>();
 
-        list_view = (ListView) findViewById(R.id.listview);
+        list_view = (RecyclerView) findViewById(R.id.listview);
+        list_view.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        list_view.setLayoutManager(mLayoutManager);
+
+//        userName= (TextView) findViewById(R.id.userName);
+//        userName.setText(profileName);
+
+
         btn_send = findViewById(R.id.btnSend);
         editMsg = (EditText) findViewById(R.id.etTypeMsg);
 
-        adapter = new MessageAdapter(this, R.layout.receiver, ChatBubbles);
+        mAdapter=new CustomAdapter(ChatBubbles);
+        list_view.setAdapter(mAdapter);
 
-        list_view.setAdapter(adapter);
+//        adapter = new MessageAdapter(this, R.layout.receiver, ChatBubbles);
+
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (editMsg.getText().toString().trim().equals("")) {
-
                     Toast.makeText(MainchatActivity.this, profileID, Toast.LENGTH_SHORT).show();
                 } else {
                     //add msg to list
@@ -117,7 +135,6 @@ public class MainchatActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
             }
 
             @Override
@@ -155,21 +172,14 @@ public class MainchatActivity extends AppCompatActivity {
     }
 
     public void renderChat(Map<String,String> messages) {
-        System.out.println("-----------------------" + messages);
 
         if (messages != null) {
-            ChatBubbles.add(new ChatBubble(messages.get("message").toString(), messages.get("direction").equals("sent")));
-
-//            for (Map.Entry<String, Object> entry : messages.entrySet()){
-//
-//                //Get user map
-//                Map singleMessage = (Map) entry.getValue();
-//                //Get phone field and append to list
-//
-//            System.out.println("-----------------------" + singleMessage);
-//            }
+            ChatBubbles.add(new ChatBubble(messages.get("message"), messages.get("direction").equals("sent")));
+            System.out.println("-----------------------" + messages);
+            mAdapter.notifyDataSetChanged();
+//            mAdapter=new CustomAdapter(ChatBubbles);
+//            list_view.setAdapter(mAdapter);
         }
-        adapter.notifyDataSetChanged();
     }
 
 //        ProfileList p=new ProfileList("https://www.shareicon.net/data/128x128/2016/07/11/316099_man_512x512.png",value);

@@ -19,9 +19,6 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
     private DrawerLayout drawer;
 
     private Session session;
-   // Button btnTakeimg;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +123,7 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
 
         }
     }
+
 
     public void logout(){
         session.setLoggedin(false);
