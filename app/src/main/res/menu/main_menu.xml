@@ -5,7 +5,12 @@
 
     <item android:id="@+id/search_id"
         android:title="search"
-          android:icon="@drawable/baseline_search_white_36dp"
-          app:showAsAction="always"/>
+        android:icon="@drawable/baseline_search_white_36dp"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView"
+       >
+
+    </item>
+
 
 </menu>

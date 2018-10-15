@@ -68,7 +68,7 @@ public class Profileclass extends Fragment {
         mprofileImg = (ImageView) view.findViewById(R.id.set_profile_image);
         btnSetProfile = (Button) view.findViewById(R.id.btnChange_prof);
 
-
+        setProfileImage();
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -118,6 +118,7 @@ public class Profileclass extends Fragment {
 
             final StorageReference filepath = userProfileStorageRef.child(currentUserid + ".jpg");
 
+
             filepath.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -145,6 +146,8 @@ public class Profileclass extends Fragment {
 //                            Uri downloadUri=userProfileStorageRef.getDownloadUrl().getResult();
 //                            Picasso.get().load(downloadUri).into(mprofileImg);
 
+                                dRef.setValue("profilePicture",currentUserid+".jpg");
+                                setProfileImage();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -159,44 +162,17 @@ public class Profileclass extends Fragment {
             }
 
         }
-//
-//        if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
-//
-//            CropImage.ActivityResult result=CropImage.getActivityResult(data);
-//
-//            if(resultCode==RESULT_OK){
-//
-//                Uri resultUri=result.getUri();
-//
-//                StorageReference filepath=userProfileRef.child(currentUserid+ ".jpg");
-//
-//            filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//
-//                    if(task.isSuccessful()){
-//                        Toast.makeText(getContext(),"image stored successfully",Toast.LENGTH_SHORT).show();
-//
-//                        final String downloadUrl= userProfileRef.getDownloadUrl().getResult().toString();
-//
-//                        dRef.child("profileimage").setValue(downloadUrl)
-//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        if(task.isSuccessful())
-//                                        {
-//                                            //successfully stored
-//                                        }
-//
-//                                    }
-//                                });
-//                    }
-//                }
-//            });
-//            }
-//        }
-//
 
 
+    }
+
+    public void setProfileImage(){
+        userProfileStorageRef.child(currentUserid+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                ImageFromURL image=new ImageFromURL(mprofileImg);
+                image.execute(uri.toString());
+            }
+        });
     }
 }

@@ -2,6 +2,7 @@ package com.example.shrut.myapk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -23,6 +28,7 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
 
     private List<ProfileList> profiles;
     private ImageFromURL imageFromURL;
+    private StorageReference userProfileStorageRef;
 
     public ProfileAdapter(Activity context, int resource, List<ProfileList> objects) {
         super(context, resource, objects);
@@ -34,7 +40,7 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         LayoutInflater inflater=(LayoutInflater)activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         int layoutResource=0;
@@ -53,8 +59,16 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
             holder=new ViewHolder(convertView);
             convertView.setTag(holder);
             holder.name.setText((CharSequence) profileList.getUserName());
-            new ImageFromURL(holder.image).execute(profileList.getEmail());
+//            new ImageFromURL(holder.image).execute(profileList.getEmail());
             holder.email.setText((CharSequence)profileList.getEmail());
+
+            userProfileStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://myapk-927fd.appspot.com").child("profileimages");
+            userProfileStorageRef.child(profileList.getUserId()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    new ImageFromURL(holder.image).execute(uri.toString());
+                }
+            });
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,6 +119,7 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
             email=(TextView)v.findViewById(R.id.email_person_id);
         }
     }
+
 
 
 }

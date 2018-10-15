@@ -81,6 +81,7 @@ public class Chatclass extends Fragment {
         chat_list.setAdapter(adapter);
 
 
+
         return view;
     }
 
