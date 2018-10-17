@@ -146,7 +146,7 @@ public class Profileclass extends Fragment {
 //                            Uri downloadUri=userProfileStorageRef.getDownloadUrl().getResult();
 //                            Picasso.get().load(downloadUri).into(mprofileImg);
 
-                                dRef.setValue("profilePicture",currentUserid+".jpg");
+                               // dRef.setValue("profilePicture",currentUserid+".jpg");
                                 setProfileImage();
                             }
                         }).addOnFailureListener(new OnFailureListener() {

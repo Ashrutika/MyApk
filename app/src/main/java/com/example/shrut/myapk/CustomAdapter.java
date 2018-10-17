@@ -71,4 +71,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             message = (TextView) itemView.findViewById(R.id.txt_msg);
         }
     }
+
+
+//    public void setFilter(ArrayList<ChatBubble> newList)
+//    {
+//        messages=new ArrayList<>();
+//        messages.addAll(newList);
+//        notifyDataSetChanged();
+//
+//    }
 }

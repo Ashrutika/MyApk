@@ -40,9 +40,9 @@ public class Friendsclass extends Fragment {
         name=(TextView)view.findViewById(R.id.person_name_id);
         image=(ImageView)view.findViewById(R.id.circleimgreq_id);
 
-        for(int i=0;i<20;i++) {
+        for(int i=0;i<1;i++) {
 
-            FriendList f = new FriendList("https://www.shareicon.net/data/128x128/2016/07/11/316099_man_512x512.png", "shruti");
+            FriendList f = new FriendList("https://www.shareicon.net/data/128x128/2016/07/11/316099_man_512x512.png", "User");
             friendLists.add(f);
 
             adapter = new FriendAdapter(getActivity(), R.layout.friend_request, friendLists);

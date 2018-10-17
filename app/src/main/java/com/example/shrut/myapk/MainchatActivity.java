@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainchatActivity extends AppCompatActivity {
+public class MainchatActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private RecyclerView list_view;
     private View btn_send;
@@ -49,7 +49,7 @@ public class MainchatActivity extends AppCompatActivity {
     int messageIndex = 0;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private CustomAdapter cAdapter;
     private ListView chat_list;
     private List<ProfileList> profileLists;
 
@@ -86,6 +86,7 @@ public class MainchatActivity extends AppCompatActivity {
         mAdapter=new CustomAdapter(ChatBubbles);
         list_view.setAdapter(mAdapter);
 
+
 //        adapter = new MessageAdapter(this, R.layout.receiver, ChatBubbles);
 
 
@@ -93,7 +94,7 @@ public class MainchatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (editMsg.getText().toString().trim().equals("")) {
-                    Toast.makeText(MainchatActivity.this, profileID, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainchatActivity.this, "Enter Text", Toast.LENGTH_SHORT).show();
                 } else {
                     //add msg to list
                     String message = editMsg.getText().toString();
@@ -197,31 +198,35 @@ public class MainchatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
-        final MenuItem searchItem=menu.findItem(R.id.search_id);
-        SearchView searchView=(SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        final MenuItem searchItem = menu.findItem(R.id.search_id);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(MainchatActivity.this);
+        return true;
+        //return super.onCreateOptionsMenu(menu);
+    }
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-//                ArrayList<String>templist=new ArrayList<>();
-//                for( String temp:){
-//
-//                    if(temp.toLowerCase().contains(newText.toLowerCase())){
-//                        templist.add(temp);
-//
-//                    }
-//                }
-//                RecyclerView.Adapter mAdapter=new CustomAdapter(ChatBubbles);
-//                list_view.setAdapter(mAdapter);
+                newText=newText.toLowerCase();
+                ArrayList<ChatBubble> newList=new ArrayList<>();
 
+                for(ChatBubble chatBubble:ChatBubbles){
+
+                    String msg=chatBubble.getContent().toLowerCase();
+                    if(msg.contains(newText)){
+                        newList.add(chatBubble);
+                    }
+                }
+                setFilter(newList);
                 return true;
             }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
+//        });
+//
+//    }
 
 
     public void showAlertbox() {
@@ -251,6 +256,16 @@ public class MainchatActivity extends AppCompatActivity {
         // AlertDialog mDialog = builder.create();
         builder.setCancelable(true);
         builder.show();
+    }
+
+    public void setFilter(ArrayList<ChatBubble> newList)
+    {
+
+       ChatBubbles =new ArrayList<>();
+       ChatBubbles.clear();
+       ChatBubbles.addAll(newList);
+       mAdapter.notifyDataSetChanged();
+
     }
 
 
