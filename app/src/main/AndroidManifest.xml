@@ -3,8 +3,8 @@
     package="com.example.shrut.myapk">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".StartView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,10 +24,11 @@
         <activity
             android:name=".Main3Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".startView" />
-        <activity android:name=".MainchatActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
 
+        <activity android:name=".MainchatActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".Nav_example"></activity>
     </application>
 
 </manifest>
