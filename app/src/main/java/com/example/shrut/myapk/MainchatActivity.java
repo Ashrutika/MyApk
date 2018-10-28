@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainchatActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class MainchatActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private RecyclerView list_view;
     private View btn_send;
@@ -52,6 +51,9 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
     private CustomAdapter cAdapter;
     private ListView chat_list;
     private List<ProfileList> profileLists;
+    private List<ChatBubble> wholeChat;
+    DatabaseReference dRef;
+    Long expiryTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +67,18 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
         final String myId = mAuth.getCurrentUser().getUid();
         profileID = getIntent().getStringExtra("userId");
 
-        final DatabaseReference dRef = FirebaseDatabase.getInstance().getReference().child("chats");
+        dRef = FirebaseDatabase.getInstance().getReference();
 
-        chat_list = (ListView)findViewById(R.id.listview_chat);
+        chat_list = (ListView) findViewById(R.id.listview_chat);
         ChatBubbles = new ArrayList<>();
+        wholeChat = new ArrayList<>();
 
         list_view = (RecyclerView) findViewById(R.id.listview);
         list_view.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         list_view.setLayoutManager(mLayoutManager);
+        expiryTime = 24 * 60 * 60 * 60 * 1000L;
 
 //        userName= (TextView) findViewById(R.id.userName);
 //        userName.setText(profileName);
@@ -83,7 +87,7 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
         btn_send = findViewById(R.id.btnSend);
         editMsg = (EditText) findViewById(R.id.etTypeMsg);
 
-        mAdapter=new CustomAdapter(ChatBubbles);
+        mAdapter = new CustomAdapter(ChatBubbles);
         list_view.setAdapter(mAdapter);
 
 
@@ -108,15 +112,23 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
                     messageReceivedObject.put("direction", "receive");
                     messageReceivedObject.put("timeStamp", ServerValue.TIMESTAMP);
                     messageSentObject.put("timeStamp", ServerValue.TIMESTAMP);
-                    DatabaseReference sendMesssageRef=dRef.child(myId).child(profileID).push();
-                    String pushId=sendMesssageRef.getKey();
+                    messageSentObject.put("expires", expiryTime);
+                    messageReceivedObject.put("expires", expiryTime);
+                    DatabaseReference sendMesssageRef = dRef.child("chats").child(myId).child(profileID).push();
+                    String pushId = sendMesssageRef.getKey();
                     sendMesssageRef.setValue(messageSentObject);
-                    dRef.child(profileID).child(mAuth.getCurrentUser().getUid()).child(pushId).setValue(messageReceivedObject);
+                    dRef.child("chats").child(profileID).child(mAuth.getCurrentUser().getUid()).child(pushId).setValue(messageReceivedObject);
+
+                    Map notificationMap=new HashMap();
+                    notificationMap.put("from",mAuth.getCurrentUser().getUid());
+//                    notificationMap.put("from",mAuth.getCurrentUser().getUid());
+                    dRef.child("notifications").child(profileID).child(pushId).setValue(notificationMap);
 //                    adapter.notifyDataSetChanged();
 
                     editMsg.setText("");
+                    expiryTime = 24 * 60 * 60 * 60 * 1000L;
 
-//                    if (isSent == true) {
+//                  x  if (isSent == true) {
 //                        isSent = false;
 //                    } else {
 //                        if (isSent == false) {
@@ -137,10 +149,10 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
             }
         });
 
-        dRef.child(mAuth.getCurrentUser().getUid()).child(profileID).addChildEventListener(new ChildEventListener() {
+        dRef.child("chats").child(mAuth.getCurrentUser().getUid()).child(profileID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                renderChat((Map<String,String>) dataSnapshot.getValue());
+                renderChat((Map<String, String>) dataSnapshot.getValue(), dataSnapshot.getKey());
             }
 
             @Override
@@ -181,12 +193,17 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
 //        });
     }
 
-    public void renderChat(Map<String,String> messages) {
-
+    public void renderChat(Map<String, String> messages, String key) {
+//        Long.parseLong(String.valueOf(messages.get("timeStamp")))
         if (messages != null) {
-            ChatBubbles.add(new ChatBubble(messages.get("message"), messages.get("direction").equals("sent")));
+//            if (0 >= Long.parseLong(ServerValue.TIMESTAMP.toString())) {
+//                dRef.child(mAuth.getCurrentUser().getUid()).child(profileID).child(key).removeValue();
+//            } else {
+            ChatBubbles.add(new ChatBubble(messages.get("message"), messages.get("direction").equals("sent"), String.valueOf(messages.get("timeStamp"))));
+            wholeChat.add(new ChatBubble(messages.get("message"), messages.get("direction").equals("sent"), String.valueOf(messages.get("timeStamp"))));
             System.out.println("-----------------------" + messages);
             mAdapter.notifyDataSetChanged();
+//            }
 //            mAdapter=new CustomAdapter(ChatBubbles);
 //            list_view.setAdapter(mAdapter);
         }
@@ -198,52 +215,102 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
+        menuInflater.inflate(R.menu.delete_chat, menu);
         final MenuItem searchItem = menu.findItem(R.id.search_id);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(MainchatActivity.this);
-        return true;
-        //return super.onCreateOptionsMenu(menu);
-    }
+        final MenuItem deleteChat = menu.findItem(R.id.delete_chat);
+        deleteChat.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onMenuItemClick(MenuItem item) {
+                new AlertDialog.Builder(MainchatActivity.this)
+                        .setTitle("DELETE")
+                        .setMessage("Are you sure, you want to delete chat?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteChat();
+                                Toast.makeText(MainchatActivity.this, "Deleted chat successfully.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
+                            }
+                        }).show();
                 return false;
             }
+        });
+
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-                newText=newText.toLowerCase();
-                ArrayList<ChatBubble> newList=new ArrayList<>();
-
-                for(ChatBubble chatBubble:ChatBubbles){
-
-                    String msg=chatBubble.getContent().toLowerCase();
-                    if(msg.contains(newText)){
+            public boolean onQueryTextSubmit(String s) {
+                ArrayList<ChatBubble> newList = new ArrayList<>();
+                for (ChatBubble chatBubble : wholeChat) {
+                    if (chatBubble.getContent().contains(s)) {
                         newList.add(chatBubble);
                     }
                 }
+
                 setFilter(newList);
-                return true;
+                return false;
             }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                return false;
+            }
+        });
+
+        return true;
+        //return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+//
+        return true;
+    }
 //        });
 //
 //    }
 
 
     public void showAlertbox() {
-        timeList = new String[]{"Default", "15 minutes", "30 minutes", "45 minutes", "1 hour"};
+        timeList = new String[]{"Default", "30 seconds", "5 minutes", "15 minutes", "1 hour"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainchatActivity.this);
         builder.setTitle("Set Time To Delete Message");
         builder.setSingleChoiceItems(timeList, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(MainchatActivity.this, "msg will be deleted after " + timeList[i], Toast.LENGTH_SHORT).show();
+                switch (i) {
+                    case 0:
+                        expiryTime = 24 * 60 * 60 * 60 * 1000L;
+                        break;
+                    case 1:
+                        expiryTime = 30 * 1000L;
+                        break;
+                    case 2:
+                        expiryTime = 5 * 60 * 1000L;
+                        break;
+                    case 3:
+                        expiryTime = 15 * 60 * 1000L;
+                        break;
+                }
+//                Toast.makeText(MainchatActivity.this, "msg will be deleted after " + timeList[i], Toast.LENGTH_SHORT).show();
             }
         });
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
-
+                btn_send.performClick();
             }
         });
         builder.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
@@ -258,14 +325,15 @@ public class MainchatActivity extends AppCompatActivity implements SearchView.On
         builder.show();
     }
 
-    public void setFilter(ArrayList<ChatBubble> newList)
-    {
+    public void setFilter(ArrayList<ChatBubble> newList) {
+        ChatBubbles.clear();
+        ChatBubbles.addAll(newList);
+        mAdapter.notifyDataSetChanged();
 
-       ChatBubbles =new ArrayList<>();
-       ChatBubbles.clear();
-       ChatBubbles.addAll(newList);
-       mAdapter.notifyDataSetChanged();
+    }
 
+    public void deleteChat() {
+        dRef.child("chats").child(mAuth.getCurrentUser().getUid()).child(profileID).setValue(null);
     }
 
 

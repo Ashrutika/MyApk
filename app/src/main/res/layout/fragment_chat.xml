@@ -17,13 +17,13 @@
     </ListView>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="470dp"
-        android:clickable="true"
-        android:src="@drawable/baseline_phone_white_36dp" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="280dp"-->
+        <!--android:layout_marginTop="470dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/baseline_phone_white_36dp" />-->
 
 
 </RelativeLayout>

@@ -11,14 +11,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="2dp"
-        android:text="hello,this is received msg"
-        android:textSize="20dp"
+        android:text="message failed"
+        android:textSize="15sp"
         android:textColor="@color/colorBlack"
         android:layout_alignParentLeft="true"
-        android:padding="10dp"
+        android:paddingTop="6dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="18dp"
+        android:minWidth="50dp"
         android:maxWidth="200dp"
         android:textAlignment="center"
         android:background="@drawable/received_bubble"/>
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:textColor="#878787"
+        android:text="kdfhkk"
+        android:layout_alignLeft="@+id/txt_msg"
+        android:layout_alignBottom="@+id/txt_msg"
+        android:paddingLeft="5dp"
+        android:paddingBottom="3dp"
+        />
 
 
 </RelativeLayout>

@@ -17,15 +17,17 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
     private DrawerLayout drawer;
 
     private Session session;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
 
-
-
         session=new Session(Main3Activity.this);
+
+
 
         if(!session.loggedin()){
             logout();
@@ -43,11 +45,15 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+
+
         if(savedInstanceState==null) {
             getSupportActionBar().setTitle("Chat");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                    new Chatclass()).commit();
             navigationView.setCheckedItem(R.id.chat_id);
+
 
 
         }

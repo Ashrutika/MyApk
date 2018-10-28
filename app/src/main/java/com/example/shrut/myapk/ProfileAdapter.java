@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -77,7 +76,7 @@ public class ProfileAdapter extends ArrayAdapter<ProfileList> {
                     startChat.putExtra("userId",profileList.getUserId());
                     startChat.putExtra("userName",profileList.getUserName());
                     getContext().startActivity(startChat);
-                    Toast.makeText(getContext(),profileList.getUserId(),Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getContext(),profileList.getUserId(),Toast.LENGTH_LONG).show();
                 }
             });
             // }

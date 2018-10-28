@@ -12,24 +12,26 @@
     tools:context="com.example.shrut.myapk.Nav_example">
 
 
-    <ImageView
-        android:id="@+id/profileImg_nav"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/logo_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:src="@mipmap/logo_round" />
 
     <TextView
         android:id="@+id/headerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="Name"
+        android:text="vConnect"
+        android:textStyle="bold"
+        android:textSize="30dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/headerEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email" />
+    <!--<TextView-->
+        <!--android:id="@+id/headerEmail"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Email" />-->
 
 </LinearLayout>
